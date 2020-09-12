@@ -15,19 +15,20 @@ class BstNode
 {
 private:
     T data;
-    BstNode *root, *left, *right;
+    BstNode *left, *right;
+    
     
 public:
     BstNode();
     ~BstNode();
     
-    BstNode<T> *insert(T data);
+    BstNode<T> *insert(BstNode<T> *bst, T data);
 };
 
 
 
 template<class T>
-BstNode<T>::BstNode():root(NULL), left(NULL), right(NULL){}
+BstNode<T>::BstNode(){}
 
 template<class T>
 BstNode<T>::~BstNode()
@@ -37,23 +38,36 @@ BstNode<T>::~BstNode()
 
 
 template<class T>
-BstNode<T> *BstNode<T>::insert(T data)
+BstNode<T> *BstNode<T>::insert(BstNode<T> *root, T data)
 {
     if(root == NULL)
     {
-        root->data = data;
-        root->left = NULL;
-        root->right = NULL;
+        BstNode<T> *newRoot = new BstNode<T>();
+        newRoot->data = data;
+        newRoot->left = NULL;
+        newRoot->right = NULL;
+        root = newRoot;
     }
     
-    else if(root->data <= data)
+    else if(data <= root->data)
     {
-        
+        root->left = insert(root->left, data);
     }
+    else if(data > root->data)
+    {
+        root->right = insert(root->right, data);
+    }
+    return root;
 }
 
 
 int main()
 {
-    cout << "Hello World\n";
+    BstNode<int> *root = NULL;
+    
+    root = root->insert(root,5);
+    root = root->insert(root, 10);
+    root = root->insert(root, 3);
+    root = root->insert(root, 2);
+    root = root->insert(root, 1);
 }
